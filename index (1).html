@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Harshitha Juvvala — Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #FFFFFF;
+    --ink: #0A1628;
+    --muted: #5A6A82;
+    --accent: #C9A84C;
+    --accent2: #1A3A6B;
+    --line: rgba(10,22,40,0.1);
+    --card: #F4F7FC;
+    --deep: #0D2147;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Instrument Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(255,255,255,0.97);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(10px);
+  }
+  .nav-name { font-family: var(--mono); font-size: 13px; color: var(--muted); letter-spacing: .04em; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding: 0 48px; padding-top: 80px; border-bottom: 1px solid var(--line); background: var(--bg); }
+  .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 80px 64px 80px 0; border-right: 1px solid var(--line); }
+  .hero-eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; opacity: 0; animation: fadeUp .6s .1s forwards; }
+  .hero-name { font-family: var(--serif); font-size: clamp(44px, 5.5vw, 76px); line-height: 1.02; letter-spacing: -.02em; margin-bottom: 28px; color: var(--deep); opacity: 0; animation: fadeUp .7s .2s forwards; }
+  .hero-name em { font-style: italic; color: var(--accent); }
+  .hero-bio { font-size: 15px; color: var(--muted); max-width: 440px; line-height: 1.8; margin-bottom: 40px; opacity: 0; animation: fadeUp .7s .35s forwards; }
+  .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; opacity: 0; animation: fadeUp .7s .5s forwards; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--deep); color: var(--deep); background: transparent; cursor: pointer; transition: all .2s; }
+  .btn:hover { background: var(--deep); color: #fff; }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--deep); font-weight: 600; }
+  .btn-primary:hover { background: #b8922f; border-color: #b8922f; color: #fff; }
+
+  .hero-right { display: flex; flex-direction: column; justify-content: flex-end; padding: 80px 0 80px 64px; }
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 40px; opacity: 0; animation: fadeUp .7s .4s forwards; }
+  .stat { background: var(--bg); padding: 28px 24px; }
+  .stat-num { font-family: var(--serif); font-size: 38px; line-height: 1; color: var(--deep); margin-bottom: 6px; }
+  .stat-label { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .hero-stack { opacity: 0; animation: fadeUp .7s .55s forwards; }
+  .stack-label { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .stack-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { font-family: var(--mono); font-size: 12px; padding: 5px 12px; border: 1px solid rgba(201,168,76,0.35); color: var(--accent2); background: rgba(201,168,76,0.07); letter-spacing: .04em; }
+
+  /* SECTIONS */
+  section { padding: 100px 48px; }
+  .section-header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 64px; border-bottom: 2px solid var(--accent); padding-bottom: 20px; }
+  .section-num { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .1em; }
+  .section-title { font-family: var(--serif); font-size: clamp(30px, 4vw, 46px); letter-spacing: -.02em; line-height: 1.1; color: var(--deep); }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .project-card { background: var(--bg); padding: 44px 38px; position: relative; overflow: hidden; transition: background .2s; border-top: 3px solid transparent; }
+  .project-card:hover { background: var(--card); border-top-color: var(--accent); }
+  .project-index { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .1em; margin-bottom: 18px; }
+  .project-title { font-family: var(--serif); font-size: 26px; letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.15; color: var(--deep); }
+  .project-subtitle { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .06em; margin-bottom: 18px; }
+  .project-desc { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 24px; }
+  .project-focus { font-size: 13px; color: var(--ink); line-height: 1.65; margin-bottom: 24px; padding-left: 14px; border-left: 2px solid var(--accent); }
+  .project-tech { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tech-tag { font-family: var(--mono); font-size: 11px; padding: 4px 10px; background: rgba(13,33,71,0.06); border: 1px solid rgba(13,33,71,0.12); color: var(--accent2); letter-spacing: .04em; }
+
+  /* EXPERIENCE */
+  #experience { background: var(--deep); }
+  #experience .section-title { color: #fff; }
+  #experience .section-num { color: var(--accent); }
+  #experience .section-header { border-color: var(--accent); }
+  .exp-list { display: flex; flex-direction: column; gap: 1px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.08); }
+  .exp-item { background: rgba(255,255,255,0.03); padding: 40px; display: grid; grid-template-columns: 240px 1fr; gap: 48px; transition: background .2s; }
+  .exp-item:hover { background: rgba(255,255,255,0.07); }
+  .exp-company { font-family: var(--serif); font-size: 22px; letter-spacing: -.01em; margin-bottom: 6px; color: #fff; }
+  .exp-role { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .06em; margin-bottom: 8px; }
+  .exp-duration { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,.4); letter-spacing: .06em; margin-bottom: 4px; }
+  .exp-location { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,.4); letter-spacing: .06em; }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .exp-bullets li { font-size: 14px; color: rgba(255,255,255,.65); line-height: 1.7; padding-left: 18px; position: relative; }
+  .exp-bullets li::before { content: '—'; position: absolute; left: 0; font-family: var(--mono); color: var(--accent); font-size: 12px; }
+
+  /* SKILLS */
+  #skills { background: var(--card); }
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .skill-group { background: var(--bg); padding: 36px 32px; }
+  .skill-group-title { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+  .skill-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .skill-list li { font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 10px; }
+  .skill-list li::before { content: '—'; font-family: var(--mono); color: rgba(201,168,76,0.6); font-size: 12px; flex-shrink: 0; }
+
+  /* EDUCATION */
+  #education { background: var(--bg); }
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .edu-card { background: var(--bg); padding: 40px 36px; transition: background .2s; border-top: 3px solid transparent; }
+  .edu-card:hover { background: var(--card); border-top-color: var(--accent); }
+  .edu-degree { font-family: var(--serif); font-size: 22px; letter-spacing: -.01em; margin-bottom: 8px; line-height: 1.2; color: var(--deep); }
+  .edu-school { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .06em; margin-bottom: 8px; }
+  .edu-field { font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+  .edu-period { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; }
+  .cert-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 48px; }
+  .cert-badge { font-family: var(--mono); font-size: 11px; padding: 8px 16px; border: 1px solid rgba(201,168,76,0.5); color: var(--deep); background: rgba(201,168,76,0.08); letter-spacing: .04em; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .about-text { font-size: 17px; line-height: 1.85; color: var(--ink); }
+  .about-text p + p { margin-top: 24px; }
+  .about-text strong { color: var(--accent); font-weight: 600; }
+  .about-sidebar { display: flex; flex-direction: column; gap: 28px; }
+  .about-block-label { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .about-block-val { font-size: 14px; color: var(--ink); line-height: 1.65; }
+
+  /* CONTACT */
+  #contact { background: var(--deep); color: #fff; }
+  #contact .section-num { color: var(--accent); }
+  #contact .section-title { color: #fff; }
+  #contact .section-header { border-color: var(--accent); }
+  .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .contact-cta { font-family: var(--serif); font-size: clamp(26px, 3.5vw, 42px); line-height: 1.25; letter-spacing: -.02em; color: #fff; margin-bottom: 32px; }
+  .contact-cta em { font-style: italic; color: var(--accent); }
+  .contact-links { display: flex; flex-direction: column; }
+  .contact-link { display: flex; align-items: center; gap: 16px; font-family: var(--mono); font-size: 13px; letter-spacing: .03em; color: rgba(255,255,255,.55); text-decoration: none; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.1); transition: color .2s; }
+  .contact-link:hover { color: var(--accent); }
+  .contact-link-label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.25); min-width: 72px; flex-shrink: 0; }
+
+  footer { text-align: center; padding: 28px 48px; background: var(--deep); font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: rgba(255,255,255,.2); border-top: 1px solid rgba(255,255,255,0.06); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 20px; }
+    .nav-links { gap: 14px; }
+    .hero { grid-template-columns: 1fr; padding: 0 20px; }
+    .hero-left { padding: 80px 0 40px; border-right: none; border-bottom: 1px solid var(--line); }
+    .hero-right { padding: 40px 0 80px; }
+    section { padding: 64px 20px; }
+    .projects-grid, .skills-grid, .about-grid, .contact-inner, .edu-grid { grid-template-columns: 1fr; }
+    .exp-item { grid-template-columns: 1fr; gap: 20px; }
+    .about-grid { gap: 40px; }
+    .contact-inner { gap: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-name">harshitha juvvala</span>
+  <ul class="nav-links">
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Software Engineer · Melbourne, FL</p>
+    <h1 class="hero-name">Harshitha<br><em>Juvvala</em></h1>
+    <p class="hero-bio">Full-stack developer with a Master's in Computer Engineering, building scalable web platforms, AI-powered applications, and cloud-hosted systems that solve real problems.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View my work</a>
+      <a href="#contact" class="btn">Get in touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">4+</div><div class="stat-label">Years experience</div></div>
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Companies</div></div>
+      <div class="stat"><div class="stat-num">M.S.</div><div class="stat-label">Computer Eng.</div></div>
+      <div class="stat"><div class="stat-num">2</div><div class="stat-label">Certifications</div></div>
+    </div>
+    <div class="hero-stack">
+      <p class="stack-label">Core stack</p>
+      <div class="stack-pills">
+        <span class="pill">React</span><span class="pill">JavaScript</span><span class="pill">Node.js</span>
+        <span class="pill">Python</span><span class="pill">AWS</span><span class="pill">SQL</span>
+        <span class="pill">Tailwind CSS</span><span class="pill">Supabase</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Selected work</h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-index">Project / 01</div>
+      <h3 class="project-title">Medilab</h3>
+      <p class="project-subtitle">AI-Powered Medical Content Platform</p>
+      <p class="project-desc">A web-based platform for accessing and searching medical content, designed for institutional use across hospitals and academic organisations. Supports structured content ingestion (EPUB/PDF), intelligent search, and scalable architecture.</p>
+      <p class="project-focus">UI development · API integration · Scalable design · Analytics-ready architecture</p>
+      <div class="project-tech">
+        <span class="tech-tag">React</span><span class="tech-tag">Tailwind CSS</span><span class="tech-tag">Supabase</span><span class="tech-tag">REST APIs</span>
+      </div>
+    </div>
+    <div class="project-card reveal" style="transition-delay:.1s">
+      <div class="project-index">Project / 02</div>
+      <h3 class="project-title">Responsive Web App</h3>
+      <p class="project-subtitle">Full-Stack Web Application</p>
+      <p class="project-desc">A responsive web application built with a focus on user experience, performance, and scalability. Designed and developed modular frontend components with seamless backend service integration.</p>
+      <p class="project-focus">Responsive design · UI/UX · Performance optimisation · Modular development</p>
+      <div class="project-tech">
+        <span class="tech-tag">React</span><span class="tech-tag">JavaScript</span><span class="tech-tag">HTML</span><span class="tech-tag">CSS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Experience</h2>
+  </div>
+  <div class="exp-list">
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-company">Ledgent Technology</div>
+        <div class="exp-role">Web Developer</div>
+        <div class="exp-duration">Apr 2024 – Jan 2026</div>
+        <div class="exp-location">Miami, FL</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Designed and developed scalable web applications using modern front-end and back-end technologies, building responsive UIs and API-driven platforms.</li>
+        <li>Built RESTful APIs and backend services for data processing, authentication, and system integrations using SQL and cloud infrastructure.</li>
+        <li>Deployed and maintained cloud-hosted applications on AWS, enabling secure and reliable production environments.</li>
+        <li>Contributed to AI-driven search platforms and content discovery systems supporting large-scale datasets.</li>
+        <li>Implemented database architecture and optimised queries for high-performance data retrieval and scalable design.</li>
+      </ul>
+    </div>
+    <div class="exp-item reveal" style="transition-delay:.1s">
+      <div class="exp-meta">
+        <div class="exp-company">NextGen Web Technologies</div>
+        <div class="exp-role">AI Web Development Intern</div>
+        <div class="exp-duration">Oct 2023 – Mar 2024</div>
+        <div class="exp-location">Melbourne, FL</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Assisted in developing AI-powered web applications integrating intelligent search and data processing into modern platforms.</li>
+        <li>Supported backend API development using Python and Node.js to connect web apps with AI models and structured data sources.</li>
+        <li>Built responsive web interfaces in HTML, CSS, and JavaScript for AI-driven search systems.</li>
+        <li>Optimised SQL database schemas and metadata indexing to improve AI-powered data retrieval performance.</li>
+        <li>Assisted in deploying cloud-based AI applications on AWS with scalable infrastructure and automated workflows.</li>
+      </ul>
+    </div>
+    <div class="exp-item reveal" style="transition-delay:.2s">
+      <div class="exp-meta">
+        <div class="exp-company">HCLTech</div>
+        <div class="exp-role">Software Engineer</div>
+        <div class="exp-duration">Jan 2021 – Jul 2023</div>
+        <div class="exp-location">Chennai, India</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Designed and developed scalable web applications and backend services with RESTful APIs for enterprise-scale data processing.</li>
+        <li>Built and optimised full-stack features using JavaScript, SQL, and modern frameworks, improving application performance and responsiveness.</li>
+        <li>Implemented secure authentication, access control, and application security practices across web services.</li>
+        <li>Developed cloud-based microservices on AWS with scalable storage, APIs, and automation workflows for high-availability systems.</li>
+        <li>Mentored junior developers and contributed to code reviews, testing, and cross-functional deployment.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Expertise</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <p class="skill-group-title">Frontend</p>
+      <ul class="skill-list">
+        <li>React</li><li>JavaScript (ES6+)</li><li>HTML5 / CSS3</li>
+        <li>Tailwind CSS</li><li>Responsive Design</li><li>UI/UX Development</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal" style="transition-delay:.1s">
+      <p class="skill-group-title">Backend & Cloud</p>
+      <ul class="skill-list">
+        <li>Node.js</li><li>Python</li><li>REST APIs</li>
+        <li>SQL & Database Design</li><li>AWS Infrastructure</li><li>Supabase</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal" style="transition-delay:.2s">
+      <p class="skill-group-title">Systems & Practices</p>
+      <ul class="skill-list">
+        <li>Cloud Architecture</li><li>Networking (CCNP)</li><li>AI-Powered Platforms</li>
+        <li>Microservices</li><li>Analytics & Tracking</li><li>Agile / Cross-functional</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Education</h2>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <div class="edu-degree">Master's in Computer Engineering</div>
+      <div class="edu-school">Florida Institute of Technology</div>
+      <div class="edu-field">Melbourne, Florida</div>
+      <div class="edu-period">Aug 2023 – May 2025</div>
+    </div>
+    <div class="edu-card reveal" style="transition-delay:.1s">
+      <div class="edu-degree">B.E. in Electronics & Communications Engineering</div>
+      <div class="edu-school">Sathyabama Institute of Science & Technology</div>
+      <div class="edu-field">Chennai, India</div>
+      <div class="edu-period">Jun 2019 – Apr 2023</div>
+    </div>
+  </div>
+  <div class="cert-row reveal" style="transition-delay:.2s">
+    <span class="cert-badge">Cisco Certified Network Professional (CCNP) Cloud</span>
+    <span class="cert-badge">CompTIA Network+</span>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">05</span>
+    <h2 class="section-title">About me</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm a full-stack developer and software engineer with a Master's in Computer Engineering, focused on building <strong>scalable web applications, cloud platforms, and AI-powered solutions</strong>.</p>
+      <p>My background spans enterprise software at HCLTech, AI web development at NextGen, and production-grade platform work at Ledgent — giving me a strong foundation across the full stack, from responsive frontends to distributed backend systems on AWS.</p>
+      <p>I'm drawn to problems at the intersection of <strong>software engineering, cloud infrastructure, and AI</strong> — especially where performance, reliability, and real-world impact matter most.</p>
+    </div>
+    <div class="about-sidebar reveal" style="transition-delay:.15s">
+      <div class="about-block">
+        <p class="about-block-label">Location</p>
+        <p class="about-block-val">Melbourne, Florida, US</p>
+      </div>
+      <div class="about-block">
+        <p class="about-block-label">Specialisation</p>
+        <p class="about-block-val">Full-stack web platforms, AI-powered applications, cloud architecture</p>
+      </div>
+      <div class="about-block">
+        <p class="about-block-label">Certifications</p>
+        <p class="about-block-val">CCNP Cloud · CompTIA Network+</p>
+      </div>
+      <div class="about-block">
+        <p class="about-block-label">Currently</p>
+        <p class="about-block-val">Open to full-time software engineering opportunities</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-header reveal">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Contact</h2>
+  </div>
+  <div class="contact-inner">
+    <div class="reveal">
+      <p class="contact-cta">Let's build something <em>remarkable</em> together.</p>
+      <a href="mailto:juvvalaharshitha4043@gmail.com" class="btn" style="border-color:rgba(201,168,76,0.5);color:var(--accent);">Send an email ↗</a>
+    </div>
+    <div class="contact-links reveal" style="transition-delay:.15s">
+      <a href="mailto:juvvalaharshitha4043@gmail.com" class="contact-link">
+        <span class="contact-link-label">Email</span>juvvalaharshitha4043@gmail.com
+      </a>
+      <a href="https://linkedin.com/in/harshitha-juvvala-a254b8217" target="_blank" class="contact-link">
+        <span class="contact-link-label">LinkedIn</span>linkedin.com/in/harshitha-juvvala-a254b8217
+      </a>
+      <a href="https://github.com/harshitha-juvvala" target="_blank" class="contact-link">
+        <span class="contact-link-label">GitHub</span>github.com/harshitha-juvvala
+      </a>
+      <a href="tel:3214779875" class="contact-link">
+        <span class="contact-link-label">Phone</span>(321) 477-9875
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Harshitha Juvvala — Software Engineer · Melbourne, FL</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
